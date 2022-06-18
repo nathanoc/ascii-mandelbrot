@@ -4,14 +4,14 @@ namespace ASCII_Mandelbrot
 {
     class ZoomSettings
     {
-        public decimal initialWidth;
-        public decimal finalWidth;
-        public decimal centrePosX;
-        public decimal centrePosY;
+        public double initialWidth;
+        public double finalWidth;
+        public double centrePosX;
+        public double centrePosY;
         public int maxIterations;
         public float duration;
 
-        public ZoomSettings(decimal initialWidth = 0, decimal finalWidth = 0, decimal centrePosX = 0, decimal centrePosY = 0, int maxIterations = 0, float duration = 0) // I really hope there's a better way to do this
+        public ZoomSettings(double initialWidth = 0, double finalWidth = 0, double centrePosX = 0, double centrePosY = 0, int maxIterations = 0, float duration = 0) // I really hope there's a better way to do this
         {
             this.initialWidth = initialWidth;
             this.finalWidth = finalWidth;
@@ -26,13 +26,13 @@ namespace ASCII_Mandelbrot
             ZoomSettings returnValue = new ZoomSettings();
 
             Console.WriteLine("Enter initial frame width");
-            returnValue.initialWidth = decimal.Parse(Console.ReadLine());
+            returnValue.initialWidth = double.Parse(Console.ReadLine());
             Console.WriteLine("Enter final frame width");
-            returnValue.finalWidth = decimal.Parse(Console.ReadLine());
+            returnValue.finalWidth = double.Parse(Console.ReadLine());
             Console.WriteLine("Enter X coordinate to zoom to");
-            returnValue.centrePosX = decimal.Parse(Console.ReadLine());
+            returnValue.centrePosX = double.Parse(Console.ReadLine());
             Console.WriteLine("Enter Y coordinate to zoom to");
-            returnValue.centrePosY = decimal.Parse(Console.ReadLine());
+            returnValue.centrePosY = double.Parse(Console.ReadLine());
             Console.WriteLine("Enter maximum iteration count");
             returnValue.maxIterations = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter animation duration");

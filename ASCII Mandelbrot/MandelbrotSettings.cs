@@ -4,13 +4,14 @@
     {
         public int widthChars;
         public int heightChars;
-        public decimal xWidth;
-        public decimal yWidth;
-        public decimal centrePosX;
-        public decimal centrePosY;
+        public double xWidth;
+        public double yWidth;
+        public double centrePosX;
+        public double centrePosY;
         public int maxIterations;
+        public IPalette palette;
 
-        public MandelbrotSettings(int widthChars = 0, int heightChars = 0, decimal xWidth = 0, decimal yWidth = 0, decimal centrePosX = 0, decimal centrePosY = 0, int maxIterations = 0) // There must be a better way to do this than defaulting everything to 0
+        public MandelbrotSettings(int widthChars = 0, int heightChars = 0, double xWidth = 0, double yWidth = 0, double centrePosX = 0, double centrePosY = 0, int maxIterations = 0, IPalette palette = null) // There must be a better way to do this than defaulting everything to 0
         {
             this.widthChars = widthChars;
             this.heightChars = heightChars;
@@ -19,6 +20,7 @@
             this.centrePosX = centrePosX;
             this.centrePosY = centrePosY;
             this.maxIterations = maxIterations;
+            this.palette = palette;
         }
     }
 }

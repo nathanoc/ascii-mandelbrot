@@ -36,11 +36,16 @@ namespace ASCII_Mandelbrot
                     new MandelbrotSettings(
                         widthChars: 80,
                         heightChars: 80,
-                        xWidth: (decimal)((double)settings.initialWidth * Math.Pow((double)(settings.finalWidth / settings.initialWidth), functionalElapsedMilliseconds / (float)1000 / settings.duration)),
-                        yWidth: (decimal)((double)settings.initialWidth * Math.Pow((double)(settings.finalWidth / settings.initialWidth), functionalElapsedMilliseconds / (float)1000 / settings.duration)),
+                        xWidth: settings.initialWidth * Math.Pow(settings.finalWidth / settings.initialWidth, functionalElapsedMilliseconds / (float)1000 / settings.duration),
+                        yWidth: settings.initialWidth * Math.Pow(settings.finalWidth / settings.initialWidth, functionalElapsedMilliseconds / (float)1000 / settings.duration),
                         centrePosX: settings.centrePosX,
                         centrePosY: settings.centrePosY,
-                        maxIterations: settings.maxIterations
+                        maxIterations: settings.maxIterations,
+                        palette: new NumericLoopingPalette(
+                                brightnesses: "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
+                                loopLength: 125,
+                                inMandelbrotChar: '.'
+                            )
                     )
                 );
 
@@ -65,6 +70,7 @@ namespace ASCII_Mandelbrot
                 
                 framesPrinted++;
             }
+
             Console.WriteLine("Finished");
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
