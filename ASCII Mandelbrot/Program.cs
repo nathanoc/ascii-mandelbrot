@@ -40,7 +40,7 @@ namespace ASCII_Mandelbrot
                         centrePosX: settings.CentrePosX,
                         centrePosY: settings.CentrePosY,
                         maxIterations: settings.MaxIterations,
-                        palette: (IPalette)settings.ZoomPalette
+                        palette: settings.ZoomPalette
                     )
                 );
 
