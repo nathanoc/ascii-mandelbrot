@@ -2,17 +2,17 @@
 
 namespace ASCII_Mandelbrot
 {
-    interface IPalette
+    public interface IPalette
     {
         public char GetShadeChar(int iteration, int maxIterations);
+        public static IPalette InputPalette() => throw new NotImplementedException();
         public char InMandelbrotChar { get; }
     }
 
-    class Palette : IPalette
+    public class Palette : IPalette
     {
-        private string Brightnesses;
-        private float FractionExponent;
-
+        private string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+        private float FractionExponent { get; }
         public char InMandelbrotChar { get; }
 
         public char GetShadeChar(int iterations, int maxIterations)
@@ -30,17 +30,34 @@ namespace ASCII_Mandelbrot
 
         public Palette(string brightnesses, float fractionExponent, char inMandelbrotChar)
         {
-            Brightnesses = brightnesses;
+            if (brightnesses != "")
+            {
+                Brightnesses = brightnesses;    // Else stay default
+            }
+
             FractionExponent = fractionExponent;
             InMandelbrotChar = inMandelbrotChar;
         }
+
+        public Palette() { }
+
+        public static Palette InputPalette()
+        {
+            Console.WriteLine("Enter brightness gradient (press enter for default)");
+            string brightnesses = Console.ReadLine();
+            Console.WriteLine("Enter exponent for the iterations fraction");
+            float fractionExponent = float.Parse(Console.ReadLine());
+            Console.WriteLine("Enter character for pixels inside the Mandelbrot set");
+            char inMandelbrotChar = Console.ReadLine()[0];
+
+            return new Palette(brightnesses, fractionExponent, inMandelbrotChar);
+        }
     }
 
-    class FractionalLoopingPalette : IPalette
+    public class FractionalLoopingPalette : IPalette
     {
-        private string Brightnesses;
-        private float LoopLength;
-
+        private string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+        private float LoopLength { get; }
         public char InMandelbrotChar { get; }
 
         public char GetShadeChar(int iterations, int maxIterations)
@@ -59,36 +76,66 @@ namespace ASCII_Mandelbrot
 
         public FractionalLoopingPalette(string brightnesses, float loopLength, char inMandelbrotChar)
         {
-            Brightnesses = brightnesses;
+            if (brightnesses != "")
+            {
+                Brightnesses = brightnesses;    // Else stay default
+            }
+
             LoopLength = loopLength;
             InMandelbrotChar = inMandelbrotChar;
         }
+
+        public FractionalLoopingPalette() { }
+
+        public static FractionalLoopingPalette InputPalette()
+        {
+            Console.WriteLine("Enter brightness gradient (press enter for default)");
+            string brightnesses = Console.ReadLine();
+            Console.WriteLine("Enter fraction (as a decimal) of maximum iterations per gradient loop");
+            float loopLength = float.Parse(Console.ReadLine());
+            Console.WriteLine("Enter character for pixels inside the Mandelbrot set");
+            char inMandelbrotChar = Console.ReadLine()[0];
+
+            return new FractionalLoopingPalette(brightnesses, loopLength, inMandelbrotChar);
+        }
     }
 
-    class NumericLoopingPalette : IPalette
+    public class NumericLoopingPalette : IPalette
     {
-        private string Brightnesses;
-        private int LoopLength;
-
+        private string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+        private int LoopLength { get; } 
         public char InMandelbrotChar { get; }
 
         public char GetShadeChar(int iterations, int maxIterations)
         {
             int iterationModLength = iterations % LoopLength;
-            
-            if (iterationModLength == LoopLength)
-            {
-                return Brightnesses[Brightnesses.Length - 1];
-            }
 
             return Brightnesses[(int)((float)iterationModLength / LoopLength * Brightnesses.Length)];
         }
 
         public NumericLoopingPalette(string brightnesses, int loopLength, char inMandelbrotChar)
         {
-            Brightnesses = brightnesses;
+            if (brightnesses != "")
+            {
+                Brightnesses = brightnesses;    // Else stay default
+            }
+
             LoopLength = loopLength;
             InMandelbrotChar = inMandelbrotChar;
+        }
+
+        public NumericLoopingPalette() { }
+
+        public static NumericLoopingPalette InputPalette()
+        {
+            Console.WriteLine("Enter brightness gradient (press enter for default)");
+            string brightnesses = Console.ReadLine();
+            Console.WriteLine("Enter number of iterations per gradient loop");
+            int loopLength = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter character for pixels inside the Mandelbrot set");
+            char inMandelbrotChar = Console.ReadLine()[0];
+
+            return new NumericLoopingPalette(brightnesses, loopLength, inMandelbrotChar);
         }
     }
 }

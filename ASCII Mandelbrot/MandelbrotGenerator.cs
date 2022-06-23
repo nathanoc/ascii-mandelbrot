@@ -9,12 +9,12 @@ namespace ASCII_Mandelbrot
         {
             List<char> pixels = new List<char>();
 
-            for (int yInt = (int)(settings.heightChars / 2M); yInt > (int)(-settings.heightChars / 2M); yInt--)
+            for (int yInt = (int)(settings.HeightChars / 2M); yInt > (int)(-settings.HeightChars / 2M); yInt--)
             {
-                double y = settings.centrePosY + (yInt / (double)settings.heightChars * settings.yWidth);
-                for (int xInt = (int)(-settings.widthChars / 2M); xInt < (int)(settings.widthChars / 2M); xInt++)
+                double y = settings.CentrePosY + (yInt / (double)settings.HeightChars * settings.YWidth);
+                for (int xInt = (int)(-settings.WidthChars / 2M); xInt < (int)(settings.WidthChars / 2M); xInt++)
                 {
-                    double x = settings.centrePosX + (xInt / (double)settings.widthChars * settings.xWidth);
+                    double x = settings.CentrePosX + (xInt / (double)settings.WidthChars * settings.XWidth);
 
                     double Zx = 0;
                     double Zy = 0;
@@ -25,7 +25,7 @@ namespace ASCII_Mandelbrot
                     double Zy2 = 0;
 
                     int finalIteration = 1;
-                    for (int iteration = 1; iteration <= settings.maxIterations; iteration++)
+                    for (int iteration = 1; iteration <= settings.MaxIterations; iteration++)
                     {
                         Zx2 = Zx * Zx;
                         Zy2 = Zy * Zy;
@@ -47,12 +47,12 @@ namespace ASCII_Mandelbrot
 
                     if (Zx2 + Zy2 < 4)
                     {
-                        pixels.Add(settings.palette.InMandelbrotChar);
+                        pixels.Add(settings.MandelbrotPalette.InMandelbrotChar);
                     }
 
                     else
                     {
-                        pixels.Add(settings.palette.GetShadeChar(finalIteration, settings.maxIterations));
+                        pixels.Add(settings.MandelbrotPalette.GetShadeChar(finalIteration, settings.MaxIterations));
                     }
                 }
 

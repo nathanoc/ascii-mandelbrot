@@ -8,8 +8,7 @@ namespace ASCII_Mandelbrot
     {
         static void Main(string[] args) // TODO: Abstract all of this out of main with separate functions
         {
-            Console.WriteLine("(Fullscreen recommended)");
-            ZoomSettings settings = ZoomSettings.inputZoomSettings();
+            ZoomSettings settings = ZoomSettings.InputZoomSettings();
 
             Console.Clear();
 
@@ -21,47 +20,34 @@ namespace ASCII_Mandelbrot
 
             int framesPrinted = 0;
             bool finalFrameDrawn = false;
-            while (totalElapsedSW.ElapsedMilliseconds < settings.duration * 1000 || finalFrameDrawn == false)
+            while (totalElapsedSW.ElapsedMilliseconds < settings.Duration * 1000 || finalFrameDrawn == false)
             {
                 deltaTimeSW.Restart();
 
                 long functionalElapsedMilliseconds = totalElapsedSW.ElapsedMilliseconds;
-                if (totalElapsedSW.ElapsedMilliseconds > settings.duration * 1000)
+                if (totalElapsedSW.ElapsedMilliseconds > settings.Duration * 1000)
                 {
-                    functionalElapsedMilliseconds = (long)settings.duration * 1000; // So that the final frame drawn is precisely as wanted
+                    functionalElapsedMilliseconds = (long)settings.Duration * 1000; // So that the final frame drawn is precisely as wanted
                     finalFrameDrawn = true;
                 }
 
                 List<char> frame = MandelbrotGenerator.GenerateMandelbrot(
                     new MandelbrotSettings(
-                        widthChars: 80,
+                        widthChars: 160,
                         heightChars: 80,
-                        xWidth: settings.initialWidth * Math.Pow(settings.finalWidth / settings.initialWidth, functionalElapsedMilliseconds / (float)1000 / settings.duration),
-                        yWidth: settings.initialWidth * Math.Pow(settings.finalWidth / settings.initialWidth, functionalElapsedMilliseconds / (float)1000 / settings.duration),
-                        centrePosX: settings.centrePosX,
-                        centrePosY: settings.centrePosY,
-                        maxIterations: settings.maxIterations,
-                        palette: new NumericLoopingPalette(
-                                brightnesses: "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
-                                loopLength: 125,
-                                inMandelbrotChar: '.'
-                            )
+                        xWidth: settings.InitialWidth * Math.Pow(settings.FinalWidth / settings.InitialWidth, functionalElapsedMilliseconds / (float)1000 / settings.Duration),
+                        yWidth: settings.InitialWidth * Math.Pow(settings.FinalWidth / settings.InitialWidth, functionalElapsedMilliseconds / (float)1000 / settings.Duration),
+                        centrePosX: settings.CentrePosX,
+                        centrePosY: settings.CentrePosY,
+                        maxIterations: settings.MaxIterations,
+                        palette: (IPalette)settings.ZoomPalette
                     )
                 );
 
                 string frameStr = "";
                 foreach (char c in frame)
                 {
-                    if (c != '\n')
-                    {
-                        frameStr += c;
-                        frameStr += c;  // Add twice to make up for character rectangularity
-                    }
-
-                    else
-                    {
-                        frameStr += c;
-                    }
+                    frameStr += c;
                 }
                 Console.SetCursorPosition(0, 0);
                 Console.Write(frameStr);
