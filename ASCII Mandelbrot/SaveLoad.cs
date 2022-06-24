@@ -12,6 +12,8 @@ namespace ASCII_Mandelbrot
 
         public static void SavePreset(Preset preset)
         {
+            RefreshPresetList();
+
             if (!PresetList.Contains(preset))
             {
                 PresetList.Add(preset);
@@ -24,7 +26,7 @@ namespace ASCII_Mandelbrot
 
         public static Preset LoadPreset(string name)
         {
-            PresetList = (List<Preset>)JsonSerializer.Deserialize(Encoding.ASCII.GetBytes(File.ReadAllText(SavePath)), typeof(List<Preset>));
+            RefreshPresetList();
 
             foreach (Preset preset in PresetList)
             {
@@ -35,6 +37,11 @@ namespace ASCII_Mandelbrot
             }
 
             return null;
+        }
+
+        private static void RefreshPresetList()
+        {
+            PresetList = (List<Preset>)JsonSerializer.Deserialize(Encoding.ASCII.GetBytes(File.ReadAllText(SavePath)), typeof(List<Preset>));
         }
     }
 }
