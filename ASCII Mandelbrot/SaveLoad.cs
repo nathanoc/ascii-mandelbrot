@@ -8,7 +8,7 @@ namespace ASCII_Mandelbrot
     static class SaveLoad
     {
         public const string SavePath = "presets.json";
-        public static List<Preset> PresetList { get; set; } = new List<Preset>();
+        public static List<Preset> PresetList { get; } = new List<Preset>();
 
         public static void SavePreset(Preset preset)
         {
