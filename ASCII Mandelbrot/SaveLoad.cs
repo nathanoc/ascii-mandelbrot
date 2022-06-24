@@ -41,7 +41,8 @@ namespace ASCII_Mandelbrot
 
         private static void RefreshPresetList()
         {
-            PresetList = (List<Preset>)JsonSerializer.Deserialize(Encoding.ASCII.GetBytes(File.ReadAllText(SavePath)), typeof(List<Preset>));
+            PresetList.Clear();
+            PresetList.AddRange((List<Preset>)JsonSerializer.Deserialize(Encoding.ASCII.GetBytes(File.ReadAllText(SavePath)), typeof(List<Preset>)));
         }
     }
 }
