@@ -10,12 +10,6 @@ namespace ASCII_Mandelbrot
         {
             ZoomSettings settings = ZoomSettings.InputZoomSettings();
 
-            // TEST - REMOVE
-            Preset p = new Preset("testp", "testd", settings);
-            SaveLoad.SavePreset(p);
-            Console.WriteLine(SaveLoad.LoadPreset(p.Name).Name);
-            Console.ReadKey();
-
             Console.Clear();
 
             Stopwatch totalElapsedSW = new Stopwatch();
