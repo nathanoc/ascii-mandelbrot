@@ -6,13 +6,15 @@ namespace ASCII_Mandelbrot
     {
         public char GetShadeChar(int iteration, int maxIterations);
         public static IPalette InputPalette() => throw new NotImplementedException();
+        public object[] PropertiesArray();
+
         public char InMandelbrotChar { get; }
     }
 
     public class Palette : IPalette
     {
-        private string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
-        private float FractionExponent { get; }
+        public string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+        public float FractionExponent { get; }
         public char InMandelbrotChar { get; }
 
         public char GetShadeChar(int iterations, int maxIterations)
@@ -52,12 +54,17 @@ namespace ASCII_Mandelbrot
 
             return new Palette(brightnesses, fractionExponent, inMandelbrotChar);
         }
+
+        public object[] PropertiesArray()
+        {
+            return new object[] { Brightnesses, FractionExponent, InMandelbrotChar };
+        }
     }
 
     public class FractionalLoopingPalette : IPalette
     {
-        private string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
-        private float LoopLength { get; }
+        public string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+        public float LoopLength { get; }
         public char InMandelbrotChar { get; }
 
         public char GetShadeChar(int iterations, int maxIterations)
@@ -98,12 +105,17 @@ namespace ASCII_Mandelbrot
 
             return new FractionalLoopingPalette(brightnesses, loopLength, inMandelbrotChar);
         }
+
+        public object[] PropertiesArray()
+        {
+            return new object[] { Brightnesses, LoopLength, InMandelbrotChar };
+        }
     }
 
     public class NumericLoopingPalette : IPalette
     {
-        private string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
-        private int LoopLength { get; } 
+        public string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+        public int LoopLength { get; } 
         public char InMandelbrotChar { get; }
 
         public char GetShadeChar(int iterations, int maxIterations)
@@ -136,6 +148,11 @@ namespace ASCII_Mandelbrot
             char inMandelbrotChar = Console.ReadLine()[0];
 
             return new NumericLoopingPalette(brightnesses, loopLength, inMandelbrotChar);
+        }
+
+        public object[] PropertiesArray()
+        {
+            return new object[] { Brightnesses, LoopLength, InMandelbrotChar };
         }
     }
 }
