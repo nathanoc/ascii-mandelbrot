@@ -8,7 +8,8 @@ namespace ASCII_Mandelbrot
     {
         static void Main(string[] args) // TODO: Abstract all of this out of main with separate functions
         {
-            ZoomSettings settings = ZoomSettings.InputZoomSettings();
+            Preset preset = SaveLoad.SelectPreset();   // TODO: Make this more user-friendly and add more options e.g. deleting presets
+            ZoomSettings settings = preset.ToZoomSettings();
 
             Console.Clear();
 
@@ -58,7 +59,18 @@ namespace ASCII_Mandelbrot
             }
 
             Console.WriteLine("Finished");
-            Console.WriteLine("Press any key to exit");
+
+            if (!SaveLoad.PresetList.Contains(preset))
+            {
+                Console.WriteLine("Would you like to save this configuration as a preset? Y/N");
+                if (Console.ReadLine() == "Y")
+                {
+                    SaveLoad.SavePreset(preset);
+                    Console.WriteLine("Saved.");
+                }
+            }
+
+            Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
         }
     }

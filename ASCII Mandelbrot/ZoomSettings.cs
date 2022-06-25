@@ -46,7 +46,7 @@ namespace ASCII_Mandelbrot
             switch (paletteType)
             {
                 case 1:
-                    zoomPalette = Palette.InputPalette();
+                    zoomPalette = NonLoopingPalette.InputPalette();
                     break;
                 case 2:
                     zoomPalette = FractionalLoopingPalette.InputPalette();

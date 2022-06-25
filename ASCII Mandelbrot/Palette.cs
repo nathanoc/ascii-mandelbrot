@@ -9,10 +9,23 @@ namespace ASCII_Mandelbrot
         public object[] PropertiesArray();
 
         public char InMandelbrotChar { get; }
+
+        public const PaletteType Type = PaletteType.NonLoopingPalette; // Default to this
+        public PaletteType GetPaletteType() => Type;
     }
 
-    public class Palette : IPalette
+    public enum PaletteType
     {
+        NonLoopingPalette,
+        FractionalLoopingPalette,
+        NumericLoopingPalette
+    }
+
+    public class NonLoopingPalette : IPalette
+    {
+        public const PaletteType Type = PaletteType.NonLoopingPalette;
+        public PaletteType GetPaletteType() => Type;
+
         public string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
         public float FractionExponent { get; }
         public char InMandelbrotChar { get; }
@@ -30,7 +43,7 @@ namespace ASCII_Mandelbrot
             return Brightnesses[(int)(Math.Pow(iterationFraction, FractionExponent) * Brightnesses.Length)];
         }
 
-        public Palette(string brightnesses, float fractionExponent, char inMandelbrotChar)
+        public NonLoopingPalette(string brightnesses, float fractionExponent, char inMandelbrotChar)
         {
             if (brightnesses != "")
             {
@@ -41,9 +54,16 @@ namespace ASCII_Mandelbrot
             InMandelbrotChar = inMandelbrotChar;
         }
 
-        public Palette() { }
+        public NonLoopingPalette(object[] paletteProperties)
+        {
+            Brightnesses = (string)paletteProperties[0];
+            FractionExponent = (float)paletteProperties[1];
+            InMandelbrotChar = (char)paletteProperties[2];
+        }
 
-        public static Palette InputPalette()
+        public NonLoopingPalette() { }
+
+        public static NonLoopingPalette InputPalette()
         {
             Console.WriteLine("Enter brightness gradient (press enter for default)");
             string brightnesses = Console.ReadLine();
@@ -52,7 +72,7 @@ namespace ASCII_Mandelbrot
             Console.WriteLine("Enter character for pixels inside the Mandelbrot set");
             char inMandelbrotChar = Console.ReadLine()[0];
 
-            return new Palette(brightnesses, fractionExponent, inMandelbrotChar);
+            return new NonLoopingPalette(brightnesses, fractionExponent, inMandelbrotChar);
         }
 
         public object[] PropertiesArray()
@@ -63,6 +83,9 @@ namespace ASCII_Mandelbrot
 
     public class FractionalLoopingPalette : IPalette
     {
+        public const PaletteType Type = PaletteType.FractionalLoopingPalette;
+        public PaletteType GetPaletteType() => Type;
+
         public string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
         public float LoopLength { get; }
         public char InMandelbrotChar { get; }
@@ -92,6 +115,13 @@ namespace ASCII_Mandelbrot
             InMandelbrotChar = inMandelbrotChar;
         }
 
+        public FractionalLoopingPalette(object[] paletteProperties)
+        {
+            Brightnesses = (string)paletteProperties[0];
+            LoopLength = (float)paletteProperties[1];
+            InMandelbrotChar = (char)paletteProperties[2];
+        }
+
         public FractionalLoopingPalette() { }
 
         public static FractionalLoopingPalette InputPalette()
@@ -114,6 +144,9 @@ namespace ASCII_Mandelbrot
 
     public class NumericLoopingPalette : IPalette
     {
+        public const PaletteType Type = PaletteType.NumericLoopingPalette;
+        public PaletteType GetPaletteType() => Type;
+
         public string Brightnesses { get; } = "'`^,:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
         public int LoopLength { get; } 
         public char InMandelbrotChar { get; }
@@ -134,6 +167,13 @@ namespace ASCII_Mandelbrot
 
             LoopLength = loopLength;
             InMandelbrotChar = inMandelbrotChar;
+        }
+
+        public NumericLoopingPalette(object[] paletteProperties)
+        {
+            Brightnesses = (string)paletteProperties[0];
+            LoopLength = (int)paletteProperties[1];
+            InMandelbrotChar = (char)paletteProperties[2];
         }
 
         public NumericLoopingPalette() { }

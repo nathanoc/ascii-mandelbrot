@@ -1,4 +1,6 @@
-﻿namespace ASCII_Mandelbrot
+﻿using System;
+
+namespace ASCII_Mandelbrot
 {
     class Preset
     {
@@ -10,6 +12,7 @@
         public double CentrePosY { get; set; }
         public int MaxIterations { get; set; }
         public float Duration { get; set; }
+        public PaletteType PaletteType { get; set; }
         public object[] PaletteProperties { get; set; }
 
         public Preset(string name, string description, double initialWidth, double finalWidth, double centrePosX, double centrePosY, int maxIterations, float duration, object[] paletteParams)
@@ -35,9 +38,44 @@
             CentrePosY = zoomSettings.CentrePosY;
             MaxIterations = zoomSettings.MaxIterations;
             Duration = zoomSettings.Duration;
+            PaletteType = zoomSettings.ZoomPalette.GetPaletteType();
             PaletteProperties = zoomSettings.ZoomPalette.PropertiesArray();
         }
 
         public Preset() { }
+
+        public static Preset InputPreset()
+        {
+            Console.WriteLine("Enter preset name:");
+            string name = Console.ReadLine();
+            Console.WriteLine("Enter preset description:");
+            string desc = Console.ReadLine();
+
+            ZoomSettings settings = ZoomSettings.InputZoomSettings();
+
+            return new Preset(name, desc, settings);
+        }
+
+        public ZoomSettings ToZoomSettings()
+        {
+            IPalette palette;
+
+            switch (PaletteType)
+            {
+                case PaletteType.NonLoopingPalette:
+                    palette = new NonLoopingPalette(PaletteProperties);
+                    break;
+                case PaletteType.FractionalLoopingPalette:
+                    palette = new FractionalLoopingPalette(PaletteProperties);
+                    break;
+                case PaletteType.NumericLoopingPalette:
+                    palette = new NumericLoopingPalette(PaletteProperties);
+                    break;
+                default:
+                    throw new Exception($"PaletteType not implemented in switch statement in Preset.ToZoomSettings() method.");
+            }
+
+            return new ZoomSettings(InitialWidth, FinalWidth, CentrePosX, CentrePosY, MaxIterations, Duration, palette);
+        }
     }
 }
