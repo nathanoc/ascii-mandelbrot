@@ -3,54 +3,43 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Collections.Generic;
+using ASCII_Mandelbrot.ExtensionMethods;
 
 namespace ASCII_Mandelbrot
 {
     static class SaveLoad
     {
-        public const string SavePath = "presets.json";
+        private const string SavePath = "presets.json";
         public static List<Preset> PresetList { get; } = new List<Preset>();
 
-        public static Preset SelectPreset()
+        private static void SavePresetList()
         {
-            RefreshPresetList();
-
-            Console.WriteLine("Preset list:\n");
-            for (int i = 0; i < PresetList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {PresetList[i].Name}");
-                Console.WriteLine($"\tDescription: {PresetList[i].Description}");
-                Console.WriteLine($"\tDuration: {PresetList[i].Duration}");
-                Console.WriteLine();
-            }
-
-            Console.WriteLine("Enter the number corresponding to your chosen preset. Enter 0 to make your own.");
-
-            int selection = int.Parse(Console.ReadLine());
-
-            if (selection == 0)
-            {
-                return Preset.InputPreset();
-            }
-
-            else
-            {
-                return PresetList[selection - 1];
-            }
+            FileStream stream = new FileStream(SavePath, FileMode.Create, FileAccess.ReadWrite);
+            stream.Write(Encoding.ASCII.GetBytes(JsonSerializer.Serialize(PresetList)));
+            stream.Close();
         }
 
-        public static void SavePreset(Preset preset)
+        public static bool SavePreset(Preset preset, bool overwrite = false)
         {
             RefreshPresetList();
 
-            if (!PresetList.Contains(preset))
+            if (!PresetList.ContainsPreset(preset))
             {
                 PresetList.Add(preset);
             }
 
-            FileStream stream = new FileStream(SavePath, FileMode.Create, FileAccess.ReadWrite);
-            stream.Write(Encoding.ASCII.GetBytes(JsonSerializer.Serialize(PresetList)));
-            stream.Close();
+            else if (overwrite)
+            {
+                PresetList[PresetList.IndexOfPreset(preset.Name)] = preset;
+            }
+
+            else
+            {
+                return false;
+            }
+
+            SavePresetList();
+            return true;
         }
 
         public static Preset LoadPreset(string name)
@@ -68,7 +57,7 @@ namespace ASCII_Mandelbrot
             return null;
         }
 
-        private static void RefreshPresetList()
+        public static void RefreshPresetList()
         {
             PresetList.Clear();
             List<Preset> deserialized = (List<Preset>)JsonSerializer.Deserialize(Encoding.ASCII.GetBytes(File.ReadAllText(SavePath)), typeof(List<Preset>));
