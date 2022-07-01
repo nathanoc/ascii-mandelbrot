@@ -8,7 +8,7 @@ namespace ASCII_Mandelbrot
     {
         static void Main(string[] args) // TODO: Abstract all of this out of main with separate functions
         {
-            Preset preset = SaveLoad.SelectPreset();   // TODO: Make this more user-friendly and add more options e.g. deleting presets
+            Preset preset = PresetMenu.SelectPreset();  // TODO: Make this more user-friendly and add more options e.g. deleting presets
             ZoomSettings settings = preset.ToZoomSettings();
 
             Console.Clear();
@@ -65,8 +65,21 @@ namespace ASCII_Mandelbrot
                 Console.WriteLine("Would you like to save this configuration as a preset? Y/N");
                 if (Console.ReadLine() == "Y")
                 {
-                    SaveLoad.SavePreset(preset);
-                    Console.WriteLine("Saved.");
+                    bool noOverwrite = SaveLoad.SavePreset(preset, overwrite: false);
+                    if (!noOverwrite)
+                    {
+                        Console.WriteLine("A preset with this name already exists. Overwrite it? Y/N");
+                        if (Console.ReadLine() == "Y")
+                        {
+                            SaveLoad.SavePreset(preset, overwrite: true);
+                            Console.WriteLine("Saved.");
+                        }
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("Saved.");
+                    }
                 }
             }
 
