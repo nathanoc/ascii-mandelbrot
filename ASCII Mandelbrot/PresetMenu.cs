@@ -38,6 +38,7 @@ namespace ASCII_Mandelbrot
             Console.WriteLine("Preset list:\n");
             for (int i = 0; i < SaveLoad.PresetList.Count; i++)
             {
+                Console.WriteLine($"{i + 1}.");
                 OutputPresetDetails(SaveLoad.PresetList[i], revealedProperties);
                 Console.WriteLine();
             }
