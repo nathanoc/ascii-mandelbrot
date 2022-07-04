@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ASCII_Mandelbrot.Tests;
 
 namespace ASCII_Mandelbrot
 {
@@ -8,6 +9,8 @@ namespace ASCII_Mandelbrot
     {
         static void Main(string[] args) // TODO: Abstract all of this out of main with separate functions
         {
+            TestMethods.RunTestsOnStart();
+
             Preset preset = PresetMenu.SelectPreset();  // TODO: Make this more user-friendly and add more options e.g. deleting presets
             ZoomSettings settings = preset.ToZoomSettings();
 
