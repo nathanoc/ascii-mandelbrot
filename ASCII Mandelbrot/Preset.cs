@@ -46,6 +46,13 @@ namespace ASCII_Mandelbrot
 
         public ZoomSettings ToZoomSettings()
         {
+            IPalette palette = PalettePropertiesToPalette();
+
+            return new ZoomSettings(InitialWidth, FinalWidth, CentrePosX, CentrePosY, MaxIterations, Duration, palette);
+        }
+
+        public IPalette PalettePropertiesToPalette()
+        {
             IPalette palette;
 
             switch (PaletteType)
@@ -63,7 +70,7 @@ namespace ASCII_Mandelbrot
                     throw new Exception($"PaletteType not implemented in switch statement in Preset.ToZoomSettings() method.");
             }
 
-            return new ZoomSettings(InitialWidth, FinalWidth, CentrePosX, CentrePosY, MaxIterations, Duration, palette);
+            return palette;
         }
     }
 }
